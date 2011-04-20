@@ -1,0 +1,187 @@
+This is pTeX, Version 3.141592-p3.1.10 (utf8.euc) (Web2C 7.5.4) (format=platex 2011.3.10)  6 APR 2011 15:53
+**s-xml33.xml.tex
+(./s-xml33.xml.tex
+pLaTeX2e <2006/11/10>+0 (based on LaTeX2e <2003/12/01> patch level 0)
+(/opt/local/share/texmf/ptex/platex/base/tarticle.cls
+Document Class: tarticle 2006/06/27 v1.6 Standard pLaTeX class
+\c@@paper=\count81
+(/opt/local/share/texmf/ptex/platex/base/tsize10.clo
+File: tsize10.clo 2006/06/27 v1.6 Standard pLaTeX file (size option)
+)
+(/opt/local/share/texmf/ptex/platex/base/plext.sty
+Package: plext 
+File: plext.dtx 2001/09/26 v1.2 pLaTeX package file
+\@floatbox=\box41
+\floatwidth=\dimen118
+\floatheight=\dimen119
+\floatruletick=\dimen120
+\captionfloatsep=\dimen121
+\captionwidth=\dimen122
+\@captionbox=\box42
+\save@ybaselineshift=\dimen123
+\save@tbaselineshift=\dimen124
+\@picwd=\dimen125
+\rensujiskip=\skip41
+)
+\c@part=\count82
+\c@section=\count83
+\c@subsection=\count84
+\c@subsubsection=\count85
+\c@paragraph=\count86
+\c@subparagraph=\count87
+\c@figure=\count88
+\c@table=\count89
+\abovecaptionskip=\skip42
+\belowcaptionskip=\skip43
+\symmincho=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
+(Font)                  JY1/mc/m/n --> JY1/gt/m/n on input line 605.
+\toclineskip=\dimen126
+\@lnumwidth=\dimen127
+\bibindent=\dimen128
+\heisei=\count90
+)
+(/opt/local/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/opt/local/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+(/opt/local/share/texmf/tex/latex/graphics/dvipdfmx-contrib-latex/graphics.sty
+Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
+
+(/opt/local/share/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/opt/local/share/texmf-dist/tex/latex/graphics/graphics.cfg
+File: graphics.cfg 2005/02/03 v1.3 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: dvipdfmx.def on input line 81.
+
+(/opt/local/share/texmf/tex/latex/graphics/dvipdfmx-contrib-latex/dvipdfmx.def
+File: dvipdfmx.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen129
+\Gin@req@width=\dimen130
+) (/opt/local/share/texmf/ptex/platex/otfstable/otf.sty
+Package: otf 2010/03/25 v1.7b1 psitau
+LaTeX Font Info:    Redeclaring symbol font `mincho' on input line 137.
+LaTeX Font Info:    Overwriting symbol font `mincho' in version `normal'
+(Font)                  JY1/mc/m/n --> JY1/hmc/m/n on input line 137.
+LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
+(Font)                  JY1/gt/m/n --> JY1/hmc/m/n on input line 137.
+LaTeX Font Info:    Redeclaring math alphabet \mathmc on input line 137.
+LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
+(Font)                  JY1/hmc/m/n --> JY1/hmc/bx/n on input line 137.
+LaTeX Font Info:    Redeclaring math alphabet \mathgt on input line 137.
+LaTeX Font Info:    Overwriting math alphabet `\mathgt' in version `normal'
+(Font)                  JY1/gt/m/n --> JY1/hgt/m/n on input line 137.
+LaTeX Font Info:    Overwriting math alphabet `\mathgt' in version `bold'
+(Font)                  JY1/gt/m/n --> JY1/hgt/m/n on input line 137.
+LaTeX Font Info:    Overwriting math alphabet `\mathgt' in version `bold'
+(Font)                  JY1/hgt/m/n --> JY1/hgt/bx/n on input line 137.
+
+(/opt/local/share/texmf/ptex/platex/otfstable/ajmacros.sty
+Package: ajmacros 2005/12/25 13:52 iNOUE Koich! <inoue@ma.ns.musashi-tech.ac.jp
+>
+\@tempcntc=\count91
+\@tempcntd=\count92
+\@tempcnte=\count93
+\@tempcntf=\count94
+))
+LaTeX Font Info:    Font shape `JT1/hmc/m/n' will be
+(Font)              scaled to size 11.25pt on input line 12.
+LaTeX Font Info:    Font shape `JY1/hmc/m/n' will be
+(Font)              scaled to size 11.54663pt on input line 12.
+ (./furikana.sty
+Option Style `furikana' (ver1.02) <August 22, 2000> [S. Fujita]
+藤田眞作「入門・縦横文書術」所載
+LaTeX Font Info:    Font shape `JT1/hmc/m/n' will be
+(Font)              scaled to size 5.625pt on input line 80.
+LaTeX Font Info:    Font shape `JY1/hmc/m/n' will be
+(Font)              scaled to size 5.77332pt on input line 80.
+\furikanaaki=\dimen131
+\TestCnt=\count95
+\TestCNT=\count96
+) (./burasage.sty
+burasage.sty v1.00b by S. Fujita, 2000/02/01
+\tenhang=\dimen132
+\tenhangspace=\dimen133
+\tenhang=\dimen134
+\tenhangspace=\dimen135
+) (./s-xml33.xml.aux)
+\openout1 = `s-xml33.xml.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 38.
+LaTeX Font Info:    ... okay on input line 38.
+ 《縦組モード》
+LaTeX Font Info:    Font shape `JT1/hmc/m/n' will be
+(Font)              scaled to size 23.325pt on input line 45.
+LaTeX Font Info:    Font shape `JY1/hmc/m/n' will be
+(Font)              scaled to size 23.94002pt on input line 45.
+LaTeX Font Info:    Font shape `JT1/hmc/bx/n' will be
+(Font)              scaled to size 23.94002pt on input line 45.
+LaTeX Font Info:    Font shape `JY1/hmc/bx/n' will be
+(Font)              scaled to size 23.94002pt on input line 45.
+ [1
+
+] [2] [3] [4] [5] [6] [7] [8] [9]
+[10] [11] [12] [13] [14] [15] [16] [17] [18] [19] [20] [21] [22] [23] [24]
+[25] [26] [27] [28] [29] [30] [31] [32] [33] [34] [35] [36] [37] [38] [39]
+[40] [41] [42] [43] [44] [45] [46] [47] [48] [49] [50] [51] [52] [53] [54]
+[55] [56] [57] [58] [59] [60] [61] [62] [63] [64] [65] [66] [67] [68] [69]
+[70] [71] [72] [73] [74] [75] [76] [77] [78] [79] [80] [81] [82] [83] [84]
+[85] [86] [87] [88] [89] [90] [91] [92] [93] [94] [95] [96] [97] [98] [99]
+[100] [101] [102] [103] [104] [105] [106] [107] [108] [109] [110] [111]
+[112] [113] [114] [115] [116] [117] [118] [119] [120] [121] [122] [123]
+[124] [125] [126] [127] [128] [129] [130] [131] [132] [133] [134] [135]
+[136] [137] [138] [139] [140] [141] [142] [143] [144] [145] [146] [147]
+[148] [149] [150] [151] [152] [153] [154] [155] [156] [157] [158] [159]
+[160] [161] [162] [163] [164] [165] [166] [167] [168] [169] [170] [171]
+[172] [173] [174] [175] [176] [177] [178] [179] [180] [181] [182] [183]
+[184] [185] [186] [187] [188] [189] [190] [191] [192] [193] [194] [195]
+[196] [197] [198] [199] [200] [201] [202] [203] [204] [205] [206] [207]
+[208] [209] [210] [211] [212] [213] [214] [215] [216] [217] [218] [219]
+[220] [221] [222] [223] [224] [225] [226] [227] [228] [229] [230] [231]
+[232] [233] [234] [235] [236] [237] [238] [239] [240] [241] [242] [243]
+[244] [245] [246] [247] [248] [249] [250] [251] [252] [253] [254] [255]
+[256] [257] [258] [259] [260] [261] [262] [263] [264] [265] [266] [267]
+[268] [269] [270] [271] [272] [273] [274] [275] [276] [277] [278] [279]
+[280] [281] [282] [283] [284] [285] [286] [287] [288] [289] [290] [291]
+[292] [293] [294] [295] [296] [297] [298] [299] [300] [301] [302] [303]
+[304] [305] [306] [307] [308] [309] [310] [311] [312] [313] [314] [315]
+[316] [317] [318] [319] [320] [321] [322] [323] [324] [325] [326] [327]
+[328] [329] [330] [331] [332] [333] [334] [335] [336] [337] [338] [339]
+[340] [341] [342] [343] [344] [345] [346] [347] [348] [349] [350] [351]
+[352] [353] [354] [355] [356] [357] [358] [359] [360] [361] [362] [363]
+[364] [365] [366] [367] [368] [369] [370] [371] [372] [373] [374] [375]
+[376] [377] [378] [379] [380] [381] [382] [383] [384] [385] [386] [387]
+[388] [389] [390] [391] [392] [393] [394] [395] [396] [397] [398] [399]
+[400] [401] [402] [403] [404] [405] [406] [407] [408] [409] [410] [411]
+[412] [413] [414] [415] [416] [417] [418] [419] [420] [421] [422] [423]
+[424] [425] [426] [427] [428] [429] [430] [431] [432] (./s-xml33.xml.aux) ) 
+Here is how much of TeX's memory you used:
+ 2627 strings out of 94682
+ 33049 string characters out of 1177971
+ 92008 words of memory out of 1500000
+ 5955 multiletter control sequences out of 10000+50000
+ 9676 words of font info for 43 fonts, out of 1200000 for 2000
+ 566 hyphenation exceptions out of 8191
+ 25i,6n,26p,1312b,990s stack positions out of 5000i,500n,6000p,200000b,5000s
+
+Output written on s-xml33.xml.dvi (432 pages, 246828 bytes).

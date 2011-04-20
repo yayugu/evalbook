@@ -1,0 +1,44 @@
+%script{:src => "#{base_url}/jquery.min.js"}
+%script{:src => "#{base_url}/js.js"}
+
+
+%form#kumihan{:action => 'javascript:;'}
+  %input#title{:type => 'hidden', :name => 'title', :value => @title}
+  .block
+    %div
+      画面の大きさ
+      %input#display_inch{:type => 'text', :name => 'display_inch'} inch
+  .block
+    %div
+      長い方の解像度
+      %input#pixel_longer{:type => 'text', :name => 'pixel_longer'} px
+    %div
+      短い方の解像度
+      %input#pixel_shorter{:type => 'text', :name => 'pixel_shorter'} px
+    %div
+      ステータスバーなどの高さ（解像度）
+      %input#pixel_statusbar_height{:type => 'text', :name => 'pixel_statusbar_height'} px
+
+  .block
+    %div
+      文字の大きさ
+      %input#fontsize{:type => 'text', :name => 'fontsize'} pt
+  .block
+    画面の向き
+    %div
+      %input#tate{:type => 'radio', :name => 'angle', :value => 'tate', :checked => 'checked'} 縦
+      %input#yoko{:type => 'radio', :name => 'angle',  :value => 'yoko'} 横
+
+  .block
+    %div
+      %input#submit{:type => 'submit', :value => '読む'}
+.block
+  %div
+    %input#iPhone{:type => 'submit', :value => 'iPhone'}
+.block
+  %div
+    %input#iPad{:type => 'submit', :value => 'iPad'}
+
+
+.block
+  #after-kumihan-message

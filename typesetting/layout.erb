@@ -1,0 +1,42 @@
+\documentclass[a4j,<%=t.column%>]{tarticle}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage[deluxe, burasage]{otf}
+
+\makeatletter
+\DeclareFontShape{JT1}{hmc}{m}{n}{<-> s * [0.9375] brsgnmlminr-v}{}
+\renewcommand{\normalsize}{\@setfontsize\normalsize{<%=t.normalsize%>pt}{<%=t.lineskip(t.normalsize)%>}}
+\renewcommand{\tiny}{\@setfontsize\tiny{<%=t.tiny%>pt}{<%=t.lineskip(t.tiny)%>}}
+\renewcommand{\huge}{\@setfontsize\huge{<%=t.huge%>pt}{<%=t.lineskip(t.normalsize)%>}}
+\makeatother
+
+\normalsize
+\voffset=-1in
+\hoffset=-1in
+\paperwidth=<%= t.width %>pt
+\paperheight=<%= t.height %>pt
+\textwidth=<%= t.textwidth %>pt
+\textheight=<%= t.textheight %>pt
+\topmargin=<%= t.topmargin %>pt
+\oddsidemargin=<%= t.oddsidemargin %>pt
+\columnsep=<%= t.columnsep %>pt
+\headheight=0mm
+\headsep=0mm
+\topskip=0mm
+\footskip=1000mm   % don't use footer
+%\kanjiskip=0zw plus .1zw minus .01zw
+\kanjiskip=0zw plus .5zw minus .01zw
+\xkanjiskip=0.25em plus 0.15em minus 0.06em
+\setlength\parindent{<%= t.parindent_zw %>zw}
+
+\prebreakpenalty`っ=0
+
+\normalsize
+\usepackage{furikana}
+\usepackage{burasage}
+\AtBeginDvi{\special{pdf:docview <</ViewerPreferences <</Direction /R2L>> >>}}
+
+\begin{document}
+
+<%= t.body %>
+
+\end{document}

@@ -1,0 +1,128 @@
+This is pTeX, Version 3.141592-p3.1.10 (utf8.euc) (Web2C 7.5.4) (format=platex 2010.5.30)  25 OCT 2010 04:20
+**sample.txt.tex
+(./sample.txt.tex
+pLaTeX2e <2006/11/10>+0 (based on LaTeX2e <2003/12/01> patch level 0)
+(/opt/local/share/texmf/ptex/platex/base/tarticle.cls
+Document Class: tarticle 2006/06/27 v1.6 Standard pLaTeX class
+\c@@paper=\count81
+(/opt/local/share/texmf/ptex/platex/base/tsize10.clo
+File: tsize10.clo 2006/06/27 v1.6 Standard pLaTeX file (size option)
+)
+(/opt/local/share/texmf/ptex/platex/base/plext.sty
+Package: plext 
+File: plext.dtx 2001/09/26 v1.2 pLaTeX package file
+\@floatbox=\box41
+\floatwidth=\dimen118
+\floatheight=\dimen119
+\floatruletick=\dimen120
+\captionfloatsep=\dimen121
+\captionwidth=\dimen122
+\@captionbox=\box42
+\save@ybaselineshift=\dimen123
+\save@tbaselineshift=\dimen124
+\@picwd=\dimen125
+\rensujiskip=\skip41
+)
+\c@part=\count82
+\c@section=\count83
+\c@subsection=\count84
+\c@subsubsection=\count85
+\c@paragraph=\count86
+\c@subparagraph=\count87
+\c@figure=\count88
+\c@table=\count89
+\abovecaptionskip=\skip42
+\belowcaptionskip=\skip43
+\symmincho=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
+(Font)                  JY1/mc/m/n --> JY1/gt/m/n on input line 605.
+\toclineskip=\dimen126
+\@lnumwidth=\dimen127
+\bibindent=\dimen128
+\heisei=\count90
+)
+(/opt/local/share/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/opt/local/share/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+(/opt/local/share/texmf/tex/latex/graphics/dvipdfmx-contrib-latex/graphics.sty
+Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
+
+(/opt/local/share/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/opt/local/share/texmf-dist/tex/latex/graphics/graphics.cfg
+File: graphics.cfg 2005/02/03 v1.3 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: dvipdfmx.def on input line 81.
+
+(/opt/local/share/texmf/tex/latex/graphics/dvipdfmx-contrib-latex/dvipdfmx.def
+File: dvipdfmx.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen129
+\Gin@req@width=\dimen130
+) (./furikana.sty
+Option Style `furikana' (ver1.02) <August 22, 2000> [S. Fujita]
+藤田眞作「入門・縦横文書術」所載
+\furikanaaki=\dimen131
+\TestCnt=\count91
+\TestCNT=\count92
+) (./burasage.sty
+burasage.sty v1.00b by S. Fujita, 2000/02/01
+藤田眞作著「LaTeX本づくりの八衢」第4章参照
+藤田眞作著「入門・縦横文書術」所載
+\tenhang=\dimen132
+\tenhangspace=\dimen133
+\tenhang=\dimen134
+\tenhangspace=\dimen135
+) (./sample.txt.aux)
+\openout1 = `sample.txt.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for JY1/mc/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for JT1/mc/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+ 《縦組モード》
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <24> not available
+(Font)              size <24.88> substituted on input line 36.
+
+
+Overfull \vbox (3.78598pt too high) has occurred while \output is active []
+
+
+[1
+
+]
+\hi=\skip44
+ [2] (./sample.txt.aux)
+
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 0.88pt have occurred.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 732 strings out of 94682
+ 8479 string characters out of 1177971
+ 68041 words of memory out of 1500000
+ 4070 multiletter control sequences out of 10000+50000
+ 9335 words of font info for 38 fonts, out of 1200000 for 2000
+ 566 hyphenation exceptions out of 8191
+ 25i,6n,46p,1044b,238s stack positions out of 5000i,500n,6000p,200000b,5000s
+
+Output written on sample.txt.dvi (2 pages, 7380 bytes).

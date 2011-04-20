@@ -1,0 +1,50 @@
+%burasage.sty
+% Copyright 1996,1998,2000 by Shinsaku Fujita. All right reserved.
+%\typeout{burasage.sty v1.00 by S. Fujita, 1996/03/30}
+%\typeout{burasage.sty v1.00a by S. Fujita, 1998/08/26}
+\typeout{burasage.sty v1.00b by S. Fujita, 2000/02/01}
+%\typeout{藤田眞作著「LaTeX本づくりの八衢」第4章参照}
+%\typeout{藤田眞作著「入門・縦横文書術」所載}
+%横組用
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newdimen\tenhang \setbox0=\hbox{．}  \tenhang=\wd0
+\newdimen\tenhangspace \tenhangspace=1zw
+\advance\tenhangspace-\tenhang
+\def\．{\penalty10000\hbox{．}%
+ \kern-\tenhang\kern\tenhang\hskip\tenhangspace}
+\def\，{\penalty10000\hbox{，}%
+ \kern-\tenhang\kern\tenhang\hskip\tenhangspace}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%縦組用
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newdimen\Tenhang \setbox0=\hbox{。} \Tenhang=\wd0
+%\newdimen\Tenhangspace \Tenhangspace=1zw
+%\advance\Tenhangspace-\Tenhang
+%\def\。{\penalty10000\hbox{。}%
+% \kern-\Tenhang\kern\Tenhang\hskip\Tenhangspace}
+%\def\、{\penalty10000\hbox{、}%
+% \kern-\Tenhang\kern\Tenhang\hskip\Tenhangspace}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%縦組用1999/12/14 S. Fujita
+%藤田眞作著「入門・縦横文書術」所載
+\newif\ifburasage\burasagefalse
+\newdimen\tenhang \newdimen\tenhangspace 
+\def\。{\unskip\setbox0=\hbox{。}%2002/09/25 add unskip
+\tenhang=\wd0\tenhangspace=1zw%
+\advance\tenhangspace-\tenhang
+\burasagetrue\penalty10000
+\box0\kern-\tenhang\kern\tenhang\hskip\tenhangspace}
+\def\、{\unskip\setbox0=\hbox{、}%2002/09/25 add unskip
+\tenhang=\wd0\tenhangspace=1zw%
+\advance\tenhangspace-\tenhang
+\burasagetrue\penalty10000
+\box0\kern-\tenhang\kern\tenhang\hskip\tenhangspace}
+%
+% 段落末尾のぶら下げ
+%
+\def\danmatubura#1{%
+ \setbox2=\vbox{#1\penalty250%
+ \hbox to\hsize{これは余分なことをしています\hfill}}%%
+ \setbox2=\vbox{\unvbox2\setbox4=\lastbox}%
+ \setbox2=\vbox{\unvbox2\unskip}\box2}
+\endinput
