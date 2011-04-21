@@ -1,13 +1,5 @@
 %div
-  %a{:href => './make'}
-    作成
   %div
-    一覧
-    - $db[:book].each do |title, text|
-      %div
-        #{title}　　
-        %a{:href => "./view/#{title}"}
-          閲覧
-        　
-        %a{:href => "./make/#{title}"}
-          編集
+    %div
+      %a{:href => "./view/"}
+        閲覧

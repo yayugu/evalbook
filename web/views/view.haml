@@ -3,7 +3,10 @@
 
 
 %form#kumihan{:action => 'javascript:;'}
-  %input#title{:type => 'hidden', :name => 'title', :value => @title}
+  .block
+    %div
+      ソースHTML
+      %input#source_url{:type => 'text', :name => 'source_url'}
   .block
     %div
       画面の大きさ

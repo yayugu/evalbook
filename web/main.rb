@@ -1,5 +1,5 @@
 $KCODE = 'u'
-require 'yaml/store'
+require 'open-uri'
 require 'rubygems'
 require 'haml'
 require 'sinatra'
@@ -24,10 +24,6 @@ helpers do
 end
 
 configure do
-  $db = YAML::Store.new('./data.yaml')
-  $db.transaction do
-    $db[:book] = {} if $db[:book] == nil
-  end
   enable :sessions
 end
 
@@ -37,44 +33,14 @@ get '/stylesheet.css' do
 end
 
 get '/' do
-  $db.transaction do
-    haml :index
-  end
+  haml :index
 end
 
-get '/makeTransform' do
-  haml :make_transform
-end
-
-get '/make' do
-  @title = ''
-  @text = ''
-  haml :make
-end
-
-get '/make/:title' do |title|
-  @title = title
-  $db.transaction do
-    @text = $db[:book][title]
-  end
-  haml :make
-end
-
-post '/make_post' do
-  $db.transaction do
-    $db[:book][params[:title]] = params[:text].gsub(/\r\n/, "\n")
-  end
-  redirect base_url
-end
-
-get '/view/:title' do |title|
-  @title = title
+get '/view' do
   haml :view
 end
 
 post '/view-post' do
-  title = params[:title]
-
   t = ErbTemplate.new
   t.display_size = t.in_to_pt params[:display_inch].to_f
   t.fontsize = params[:fontsize].to_f
@@ -92,11 +58,7 @@ post '/view-post' do
   t.parindent_zw = 1
   t.body = ''
 
-  text = nil
-  $db.transaction do
-    text = $db[:book][title]
-  end
-
+  text = open(params[:source_url]).read
   filename = typeset(t, text)
 
   "success <a href=#{base_url}/tmp/#{filename}.pdf>PDF</a>"
