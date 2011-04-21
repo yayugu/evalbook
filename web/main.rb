@@ -41,7 +41,7 @@ helpers do
     open("#{$dir_tmp}/#{filename}.sh", 'w'){|fp| fp.write(<<-"EOF")}
       platex -interaction=nonstopmode #{$dir_tmp}/#{filename}.tex
       dvipdfmx -p #{t.width}pt,#{t.height}pt #{$dir_tmp}/#{filename}.dvi
-      mv #{filename}.pdf ../public
+      mv #{filename}.pdf ../public/tmp
       rm #{filename}.tex #{filename}.dvi
       EOF
     do_command($dir_tmp, "sh #{filename}.sh")
@@ -129,7 +129,7 @@ post '/view-post' do
 
   filename = typeset(t, text)
 
-  "success <a href=#{base_url}/#{filename}.pdf>PDF</a>"
+  "success <a href=#{base_url}/tmp/#{filename}.pdf>PDF</a>"
 end
 
 
