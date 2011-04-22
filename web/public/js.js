@@ -1,8 +1,8 @@
 $(function(){
   $("#kumihan").submit(function(e){
     $('#after-kumihan-message').empty().append("<img src=../load.gif /> 送信中...");
-    $.post(
-      "../view-post",
+    $.get(
+      "../view-get",
       {'source_url': $('input[name="source_url"]').val(),
        'display_inch': $('input[name="display_inch"]').val(),
        'pixel_longer': $('input[name="pixel_longer"]').val(),

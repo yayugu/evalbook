@@ -40,7 +40,7 @@ get '/view' do
   haml :view
 end
 
-post '/view-post' do
+get '/view-get' do
   t = ErbTemplate.new
   t.display_size = t.in_to_pt params[:display_inch].to_f
   t.fontsize = params[:fontsize].to_f
@@ -60,8 +60,12 @@ post '/view-post' do
 
   text = open(params[:source_url]).read
   filename = typeset(t, text)
-
-  "success <a href=#{base_url}/tmp/#{filename}.pdf>PDF</a>"
+  
+  if params[:redirect]
+    redirect "#{base_url}/tmp/#{filename}.pdf"
+  else
+    "success <a href=#{base_url}/tmp/#{filename}.pdf>PDF</a>"
+  end
 end
 
 
