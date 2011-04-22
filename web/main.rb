@@ -1,4 +1,4 @@
-$KCODE = 'u'
+# coding: utf-8
 require 'open-uri'
 require 'rubygems'
 require 'haml'

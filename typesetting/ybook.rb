@@ -1,6 +1,6 @@
-$KCODE = 'u' 
+# coding: utf-8
+
 require 'erb'
-require 'jcode'
 require 'ybookML'
 
 def max(a, b)

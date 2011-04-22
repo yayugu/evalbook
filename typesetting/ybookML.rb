@@ -1,4 +1,5 @@
-$KCODE = 'u'
+# coding: utf-8
+
 require 'strscan'
 require 'pp'
 
