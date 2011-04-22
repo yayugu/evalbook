@@ -3,17 +3,10 @@ $(function(){
     $('#after-kumihan-message').empty().append("<img src=../load.gif /> 送信中...");
     $.get(
       "../view-get",
-      {'source_url': $('input[name="source_url"]').val(),
-       'display_inch': $('input[name="display_inch"]').val(),
-       'pixel_longer': $('input[name="pixel_longer"]').val(),
-       'pixel_shorter': $('input[name="pixel_shorter"]').val(),
-       'pixel_statusbar_height': $('input[name="pixel_statusbar_height"]').val(),
-       'fontsize': $('input[name="fontsize"]').val(),
-       'angle': $('input[name="angle"]:checked').val()
-      },
+      $(this).serialize(),
       function(data, status){
         $('#after-kumihan-message')
-          .empty().append(data);
+          .empty().append("success! <a href='" + data + "'>PDF</a>");
       },
       'html'
     );

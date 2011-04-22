@@ -64,7 +64,7 @@ get '/view-get' do
   if params[:redirect]
     redirect "#{base_url}/tmp/#{filename}.pdf"
   else
-    "success <a href=#{base_url}/tmp/#{filename}.pdf>PDF</a>"
+    "#{base_url}/tmp/#{filename}.pdf"
   end
 end
 
