@@ -13,7 +13,7 @@ $(function(){
   });
 
   $("#iPhone").click(function(e){
-    $('#source_url').attr("value", "http://localhost:9393/s-xml22.xml");
+    $('#source_url').attr("value", "http://localhost:9393/s-xml33.html");
     $('#display_inch').attr("value", "3.5");
     $('#pixel_longer').attr("value", "480");
     $('#pixel_shorter').attr("value", "320");

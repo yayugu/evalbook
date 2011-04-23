@@ -1,7 +1,6 @@
 # coding: utf-8
 
 require 'erb'
-require 'ybookML'
 
 def max(a, b)
   a > b ? a : b
@@ -102,41 +101,3 @@ class ErbTemplate
   end
 end
 
-if __FILE__ == $0
-  t = ErbTemplate.new
-  #t.body = open(ARGV[0], 'r').read
-  t.display_size = t.in_to_pt 9.7
-  #t.pixel_x = 320
-  #t.pixel_y = 460
-  #t.display_size = t.in_to_pt 3.5
-  t.pixel_x = 768
-  t.pixel_y = 1004
-  t.fontsize = 12
-  t.wabun_bairitsu = 0.962216
-  t.body = YbookML.new(open(ARGV[0], 'r').read, t).translate_to_tex
-  template = open('layout.erb', 'r').read
-  open(ARGV[0] + '.tex', 'w').write(ERB.new(template).result)
-
-  open('tex.sh', 'w').write("
-  cd #{Dir.pwd}
-  platex #{ARGV[0]}.tex
-  dvipdfmx -p #{t.width}pt,#{t.height}pt #{ARGV[0]}.dvi")
-
-  def do_command(dirname, command)
-    result = nil
-    Dir.chdir(dirname) do
-      result = system(command)
-      unless result
-        puts 'Error: command failed (#{command})'
-        exit
-      end
-    end
-    puts command.to_s
-    return result
-  end
-
-  latexfile = ARGV[0] + '.tex'
-  latex_file_path = File.expand_path latexfile
-  working_dir = File.dirname latex_file_path
-  do_command(working_dir, 'sh tex.sh')
-end
