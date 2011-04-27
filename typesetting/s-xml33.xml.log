@@ -1,4 +1,4 @@
-This is pTeX, Version 3.141592-p3.1.10 (utf8.euc) (Web2C 7.5.4) (format=platex 2011.3.10)  6 APR 2011 15:53
+This is pTeX, Version 3.141592-p3.1.10 (utf8.euc) (Web2C 7.5.4) (format=platex 2011.3.10)  24 APR 2011 19:28
 **s-xml33.xml.tex
 (./s-xml33.xml.tex
 pLaTeX2e <2006/11/10>+0 (based on LaTeX2e <2003/12/01> patch level 0)
@@ -174,14 +174,15 @@ LaTeX Font Info:    Font shape `JY1/hmc/bx/n' will be
 [388] [389] [390] [391] [392] [393] [394] [395] [396] [397] [398] [399]
 [400] [401] [402] [403] [404] [405] [406] [407] [408] [409] [410] [411]
 [412] [413] [414] [415] [416] [417] [418] [419] [420] [421] [422] [423]
-[424] [425] [426] [427] [428] [429] [430] [431] [432] (./s-xml33.xml.aux) ) 
+[424] [425] [426] [427] [428] [429] [430] [431] [432] [433] [434]
+(./s-xml33.xml.aux) ) 
 Here is how much of TeX's memory you used:
  2627 strings out of 94682
  33049 string characters out of 1177971
- 92008 words of memory out of 1500000
+ 91008 words of memory out of 1500000
  5955 multiletter control sequences out of 10000+50000
  9676 words of font info for 43 fonts, out of 1200000 for 2000
  566 hyphenation exceptions out of 8191
  25i,6n,26p,1312b,990s stack positions out of 5000i,500n,6000p,200000b,5000s
 
-Output written on s-xml33.xml.dvi (432 pages, 246828 bytes).
+Output written on s-xml33.xml.dvi (434 pages, 247204 bytes).

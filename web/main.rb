@@ -55,7 +55,7 @@ get '/view-get' do
 
   t.wabun_bairitsu = 0.9375
   t.lineskip_zw = 1.75
-  t.parindent_zw = 1
+  t.parindent_zw = 0
   t.body = ''
 
   text = open(params[:source_url]).read

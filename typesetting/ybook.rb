@@ -1,7 +1,5 @@
 # coding: utf-8
 
-require 'erb'
-
 def max(a, b)
   a > b ? a : b
 end

@@ -37,6 +37,10 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
       @t.body << '{'
     when 'rp'
       @mode = :ignore
+    when 'pagebreak'
+      @t.body << '\n\\clearpage\n'
+    when 'jisage'
+      @t.body << begin_jisage(attrs)
     when 'dialog_name'
       @t.body << '
         \\noindent{}{\\begin{list}%
@@ -65,6 +69,8 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
       @t.body << '}'
     when 'rp'
       @mode = :normal
+    when 'jisage'
+      @t.body << end_jisage
     when 'dialog_name'
       @t.body << '\hspace*{1zw}}]'
     when 'dialog_value'
@@ -87,6 +93,21 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
       str.gsub! /「/, '{\makebox[1zw][r]{「}}' if @zenkaku_kagikakko
       @t.body << str
     end
+  end
+
+  def begin_jisage attrs
+    num = 1
+    attrs.each_slice(2) do |key, value|
+      case key
+      when 'num'
+        num = value.to_f
+      end
+    end
+    "\n{\n\\leftskip=#{num}zw\n"
+  end
+
+  def end_jisage
+    "}"
   end
 
   def set_option attrs
@@ -114,7 +135,7 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
 
   def tex_escape! str
     # %, #,... to \%, \#,...
-    str.gsub!(/([\%\#\$\&\_\{\}])/){"\\#{$1}"}
+    str.gsub!(/([\%\#\$\&\_])/){"\\#{$1}"}
     str.gsub!(/([、。])/){"#{$1}\\hbox{}"}
     str
   end

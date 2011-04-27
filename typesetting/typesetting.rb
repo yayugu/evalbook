@@ -1,4 +1,5 @@
 # coding: utf-8
+require 'erubis'
 require 'xml.rb'
 require 'ybook.rb'
 
@@ -20,7 +21,7 @@ def typeset(t, text)
   parser = Nokogiri::HTML::SAX::Parser.new(HTMLDoc.new(t)).parse(text)
   filename = "ag-" + sprintf("%05d", rand(100000))
   template = open($dir_typesetting + '/layout.erb', 'r').read
-  open("#{$dir_tmp}/#{filename}.tex", 'w'){|fp| fp.write(ERB.new(template).result(binding))}
+  open("#{$dir_tmp}/#{filename}.tex", 'w'){|fp| fp.write(Erubis::Eruby.new(template).result(binding))}
   open("#{$dir_tmp}/#{filename}.sh", 'w'){|fp| fp.write(<<-"EOF")}
       platex -interaction=nonstopmode #{$dir_tmp}/#{filename}.tex
       dvipdfmx -p #{t.width}pt,#{t.height}pt #{$dir_tmp}/#{filename}.dvi
