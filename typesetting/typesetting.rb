@@ -26,7 +26,7 @@ def typeset(t, text)
       platex -interaction=nonstopmode #{$dir_tmp}/#{filename}.tex
       dvipdfmx -p #{t.width}pt,#{t.height}pt #{$dir_tmp}/#{filename}.dvi
       mv #{filename}.pdf #{$dir_public_tmp}
-      rm #{filename}.tex #{filename}.dvi
+      #rm #{filename}.tex #{filename}.dvi
   EOF
   do_command($dir_tmp, "sh #{filename}.sh")
   filename

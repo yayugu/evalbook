@@ -21,7 +21,7 @@ class ErbTemplate
                 :parindent_zw
 
   def initialize
-    @wabun_bairitsu = 0.962216
+    @wabun_bairitsu = 0.9375
   end
 
   def width
@@ -33,8 +33,7 @@ class ErbTemplate
   end
 
   def textwidth
-    fontsize = @fontsize * @wabun_bairitsu
-    (height * 0.95 / fontsize).to_i * fontsize
+    (height * 0.95 / fontsize).to_i * jpfontsize
   end
 
   def topmargin
@@ -63,7 +62,7 @@ class ErbTemplate
   end
 
   def columnsep
-    max((topmargin * 1.5 / @fontsize).to_i * @fontsize, 2 * @fontsize)
+    max((topmargin * 1.5 / @fontsize).to_i * jpfontsize, 2 * jpfontsize)
   end
 
   def textwidth_consider_column
@@ -88,6 +87,10 @@ class ErbTemplate
 
   def lineskip(fontsize)
     fontsize * @lineskip_zw
+  end
+
+  def jpfontsize
+    @fontsize * @wabun_bairitsu
   end
 
   def in_to_pt(num)

@@ -1,4 +1,8 @@
 tmp
 *.otf
 *.log
-.DS_Store
+*.DS_Store
+*.dvi
+*.aux
+*.tex
+

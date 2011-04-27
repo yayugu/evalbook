@@ -1,6 +1,5 @@
 # coding: utf-8
 
-require 'rubygems'
 require 'nokogiri'
 
 class HTMLDoc < Nokogiri::XML::SAX::Document
