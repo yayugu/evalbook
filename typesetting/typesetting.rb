@@ -23,6 +23,7 @@ def typeset(t, text)
   template = open($dir_typesetting + '/layout.erb', 'r').read
   open("#{$dir_tmp}/#{filename}.tex", 'w'){|fp| fp.write(Erubis::Eruby.new(template).result(binding))}
   open("#{$dir_tmp}/#{filename}.sh", 'w'){|fp| fp.write(<<-"EOF")}
+      ebb *.pdf
       platex -interaction=nonstopmode #{$dir_tmp}/#{filename}.tex
       dvipdfmx -p #{t.width}pt,#{t.height}pt #{$dir_tmp}/#{filename}.dvi
       mv #{filename}.pdf #{$dir_public_tmp}
