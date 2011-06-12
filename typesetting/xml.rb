@@ -160,17 +160,51 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
   end
 
   def tag_img attrs
+    pixel_to_pt = -> pixel {pixel / 200.0 * 72.0}
     filename = nil
+    width = nil
+    height = nil
+    original_width = nil
+    original_height = nil
     attrs.each_slice(2) do |key, value|
       case key
       when 'src'
         filename = $dir_tmp + sprintf("/%05d.pdf", rand(100000))
         image = Magick::Image.read(value).first
+        original_width = pixel_to_pt.(image.base_rows)
+        original_height = pixel_to_pt.(image.base_columns)
         image.write('pdf:' + filename)
         p filename
+      when 'width'
+        width = pixel_to_pt.(value) if (value =~ /^[0-9].*\.[0-9].*$/)
+      when 'height'
+        height = pixel_to_pt.(value) if (value =~ /^[0-9].*\.[0-9].*$/)
       end
     end
-    "\\hbox{\\yoko\\includegraphics{#{filename}}}"
+    
+    scale = 1.0
+    if !width && !height
+      width = original_width
+      height = original_height
+    else
+      if width
+        scale = width / original_width
+        height = original_height * scale
+      else
+        scale = height / original_height
+        width = original_width * scale
+      end
+      if width > @t.textheight
+        scale = width / @t.textheight
+        height *= scale
+      end
+      if height > @t.textheight
+        scale = height / @t.textwidth
+        width *= scale
+      end
+    end
+
+    "\\hbox{\\yoko\\includegraphics[keepaspectratio,width=#{width}pt]{#{filename}}}"
   end
 
   def set_option attrs
