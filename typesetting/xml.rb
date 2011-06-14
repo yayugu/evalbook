@@ -5,6 +5,38 @@ require 'uri'
 require 'RMagick'
 
 class HTMLDoc < Nokogiri::XML::SAX::Document
+  class Image
+    def self.resize width, height, max_width, max_height
+      width = width.to_f
+      height = height.to_f
+      max_width = max_width.to_f
+      max_height = max_height.to_f
+      if width > max_width
+        scale = width / max_width
+        width = max_width
+        height /= scale
+      end
+      if height > max_height
+        scale = height / max_height
+        height = max_height
+        width /= scale
+      end
+      [width, height]
+    end
+
+    def initialize url_or_filename
+      @image = Magick::Image.read(url_or_filename).first
+    end
+
+    def width
+      @image.base_rows
+    end
+
+    def height
+      @image.base_columns
+    end
+  end
+
   def initialize t
     @t = t
     @mode = [:normal]
@@ -53,15 +85,15 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
       @t.body << begin_jisage(attrs)
     when 'dialog_name'
       @t.body << '
-        \\noindent{}{\\begin{list}%
+      \\noindent{}{\\begin{list}%
          {}%
          {\\setlength{\\topsep}{0zw}%
-          \\setlength{\\labelsep}{-1zw}%
-          \\setlength{\\itemsep}{0zw}%
-          \\setlength{\\leftmargin}{3zw}%
-          \\setlength{\\labelwidth}{2zw}
-          \\setlength{\\itemindent}{-2zw}}%
-        \\item[{\\gt '
+      \\setlength{\\labelsep}{-1zw}%
+      \\setlength{\\itemsep}{0zw}%
+      \\setlength{\\leftmargin}{3zw}%
+      \\setlength{\\labelwidth}{2zw}
+      \\setlength{\\itemindent}{-2zw}}%
+      \\item[{\\gt '
     when 'dialog_value'
       @t.body << ''
     end
@@ -104,7 +136,7 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
       str.each_char do |char|
         @t.body << "\\raisebox{0pt}[#{h}pt][#{h}pt]{\\Huge\\mcfamily\\bfseries #{char}}\n"
       end
-    #when :a_link
+      #when :a_link
       #str.each_char do |char|
       #  @t.body << "\\hbox{\\yoko\\href{#{@a_url}}{\\nolinkurl{#{char}}}}"
       #end
@@ -115,7 +147,7 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
       @t.body << str
     end
   end
-  
+
   def begin_a attrs
     url = ''
     attrs.each_slice(2) do |key, value|
@@ -181,7 +213,7 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
         height = pixel_to_pt.(value) if (value =~ /^[0-9].*\.[0-9].*$/)
       end
     end
-    
+
     scale = 1.0
     if !width && !height
       width = original_width
@@ -234,13 +266,13 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
     # %, #,... to \%, \#,...
     str.gsub!(/\\/, '\\textbackslash ')
     str.gsub!(/([\%\#\$\&\_])/){"\\#{$1}"}
-    str.gsub!(/([、。])/){"#{$1}\\hbox{}"}
+      str.gsub!(/([、。])/){"#{$1}\\hbox{}"}
     str
   end
 
   def to_kansuji! str
     str.tr!("1234567890%/", "一二三四五六七八九〇％／") if str =~ /[0-9\%]/
   end
-  
+
 end
 
