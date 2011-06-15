@@ -6,6 +6,23 @@ require 'RMagick'
 
 class HTMLDoc < Nokogiri::XML::SAX::Document
   class Image
+    def self.get_width_and_height width, height, original_width, original_height
+      if width and height
+        [width, height]
+      elsif !width and !height
+        [original_width, original_height]  
+      else
+        if width
+          scale = width / original_width.to_f
+          height = original_height * scale
+        else
+          scale = height / original_height.to_f
+          width = original_width * scale
+        end
+        [width, height]
+      end
+    end
+
     def self.resize width, height, max_width, max_height
       width = width.to_f
       height = height.to_f
@@ -22,18 +39,6 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
         width /= scale
       end
       [width, height]
-    end
-
-    def initialize url_or_filename
-      @image = Magick::Image.read(url_or_filename).first
-    end
-
-    def width
-      @image.base_rows
-    end
-
-    def height
-      @image.base_columns
     end
   end
 
@@ -156,23 +161,21 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
         @a_url = value
       end
     end
-    <<-EOF
-\\begingroup
-\\catcode`\\_=11
-\\catcode`\\%=11
-\\catcode`\\#=11
-\\catcode`\\$=11
-\\catcode`\\&=11
-\\special{pdf:bann << /Subtype /Link /Border [0 0 0] /C [0 1 1] /A << /S /URI /URI (#{@a_url}) >> >>}\\endgroup
-\\special{color push cmyk 0.75 0.75 0 0.44}
-    EOF
+    "\
+\\begingroup\
+\\catcode`\\_=11\
+\\catcode`\\%=11\
+\\catcode`\\#=11\
+\\catcode`\\$=11\
+\\catcode`\\&=11\
+\\special{pdf:bann << /Subtype /Link /Border [0 0 0] /C [0 1 1] /A << /S /URI /URI (#{@a_url}) >> >>}\\endgroup\
+\\special{color push cmyk 0.75 0.75 0 0.44}"
   end
 
   def end_a
-    <<-EOF
-\\special{color pop}
-\\special{pdf:eann}
-    EOF
+    "\
+\\special{color pop}\
+\\special{pdf:eann}"
   end
 
 
@@ -214,27 +217,10 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
       end
     end
 
-    scale = 1.0
-    if !width && !height
-      width = original_width
-      height = original_height
-    else
-      if width
-        scale = width / original_width
-        height = original_height * scale
-      else
-        scale = height / original_height
-        width = original_width * scale
-      end
-      if width > @t.textheight
-        scale = width / @t.textheight
-        height *= scale
-      end
-      if height > @t.textheight
-        scale = height / @t.textwidth
-        width *= scale
-      end
-    end
+    width, height = Image.resize(
+      *(Image.get_width_and_height(width, height, original_width, original_height)),
+      @t.textheight,
+      @t.textwidth)
 
     "\\hbox{\\yoko\\includegraphics[keepaspectratio,width=#{width}pt]{#{filename}}}"
   end
