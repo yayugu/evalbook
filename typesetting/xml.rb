@@ -55,7 +55,7 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
     when 'set'
       set_option attrs
     when 'title'
-      @mode = :title
+      @mode.push :title
     when 'author'
       @t.body << "\n\n\\hfill "
     when 'br'
@@ -88,6 +88,8 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
       @t.body << '\n\\clearpage\n'
     when 'jisage'
       @t.body << begin_jisage(attrs)
+    when 'rensuji'
+      @t.body << '\\rensuji{'
     when 'dialog_name'
       @t.body << '
       \\noindent{}{\\begin{list}%
@@ -96,7 +98,7 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
       \\setlength{\\labelsep}{-1zw}%
       \\setlength{\\itemsep}{0zw}%
       \\setlength{\\leftmargin}{3zw}%
-      \\setlength{\\labelwidth}{2zw}
+      \\setlength{\\labelwidth}{2zw}%
       \\setlength{\\itemindent}{-2zw}}%
       \\item[{\\gt '
     when 'dialog_value'
@@ -125,6 +127,8 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
       @t.body << '\\end{Verbatim}'
     when 'jisage'
       @t.body << end_jisage
+    when 'rensuji'
+      @t.body << '}'
     when 'dialog_name'
       @t.body << '\\hspace*{1zw}}]'
     when 'dialog_value'
@@ -195,7 +199,7 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
   end
 
   def tag_img attrs
-    pixel_to_pt = -> pixel {pixel / 200.0 * 72.0}
+    pixel_to_pt = -> pixel { pixel / 200.0 * 72.0 }
     filename = nil
     width = nil
     height = nil
@@ -211,9 +215,9 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
         image.write('pdf:' + filename)
         p filename
       when 'width'
-        width = pixel_to_pt.(value) if (value =~ /^[0-9].*\.[0-9].*$/)
+        width = pixel_to_pt.(value) if value =~ /^[0-9].*\.[0-9].*$/
       when 'height'
-        height = pixel_to_pt.(value) if (value =~ /^[0-9].*\.[0-9].*$/)
+        height = pixel_to_pt.(value) if value =~ /^[0-9].*\.[0-9].*$/
       end
     end
 
