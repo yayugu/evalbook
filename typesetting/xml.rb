@@ -4,8 +4,194 @@ require 'nokogiri'
 require 'uri'
 require 'RMagick'
 
-class HTMLDoc < Nokogiri::XML::SAX::Document
-  class Image
+class TransformHTMLToTex
+  def initialize t=nil
+    @t = t
+    @zenkaku_kagikakko = false
+    @force_kansuji = false
+  end
+
+  def parse n
+    if n.kind_of?(Nokogiri::XML::NodeSet)
+      n.map do |node|
+        _parse node
+      end.join('')
+    else
+      _parse n
+    end
+  end
+
+  def _parse node
+    if node.kind_of?(Nokogiri::XML::Text)
+      text(node.content)
+    elsif node.kind_of?(Nokogiri::XML::Node)
+      begin
+        @node = node
+        self.__send__(node.name.downcase){self.parse node.children}
+      rescue NoMethodError
+        self.parse node.children
+      end
+    else
+      raise "Cannnot parse. Unknown Node: #{node.class.inspect}"
+    end
+  end
+
+  def text str
+    to_kansuji!(str) if @force_kansuji
+    tex_escape!(str)
+    str.gsub! /「/, '{\makebox[1zw][r]{「}}' if @zenkaku_kagikakko
+    str
+  end
+
+  def set
+    @node.keys.each do |key|
+      value = @node[key]
+      case key
+      when 'lineskip'
+        @t.lineskip_zw = value.to_f
+      when 'zenkaku_kagikakko'
+        if value == 'true'
+          @zenkaku_kagikakko = true
+        else
+          @zenkaku_kagikakko = false
+        end
+      when 'force_kansuji'
+        if value == 'true'
+          @force_kansuji = true
+        else
+          @force_kansuji = false
+        end
+      when 'parindent'
+        @t.parindent_zw = value.to_f
+      end
+    end
+    ''
+  end
+
+  def title
+    h = @t.fontsize / 2.0
+    @node.content.each_char.map do |char|
+      "\\raisebox{0pt}[#{h}pt][#{h}pt]{\\Huge\\mcfamily\\bfseries #{char}}\n"
+    end.join('')
+  end
+  def author() "\n\n\\hfill #{yield}\n\n"; end
+
+  def rb() "\\kana{#{yield}}"; end
+  def rt() "{#{yield}}"; end
+  def rp() ""; end
+
+  def br() '\\par{}'; end
+  def hr
+    "\
+\\vspace{1zw plus .1zw minus .4zw}\n\n
+\n\n\\noindent
+\\hfil
+\\rule{#{@t.textwidth_consider_column * 0.7}pt}{.01zw}
+\\hfill\n\n"
+  end
+
+  def p() "\\vspace{1zw plus .1zw minus .4zw}\n\n#{yield}"; end
+
+  def pre
+    "\
+\\begin{Verbatim}[fontsize=\\small, frame=leftline]
+    #{yield}
+\\end{Verbatim}\n"
+  end
+
+  def a
+    a_url = ''
+    @node.keys.each do |key|
+      case key
+      when 'href'
+        a_url = @node[key]
+      end
+    end
+    "\
+\\begingroup\
+\\catcode`\\_=11\
+\\catcode`\\%=11\
+\\catcode`\\#=11\
+\\catcode`\\$=11\
+\\catcode`\\&=11\
+\\special{pdf:bann << /Subtype /Link /Border [0 0 0] /C [0 1 1] /A << /S /URI /URI (#{a_url}) >> >>}\\endgroup\
+\\special{color push cmyk 0.75 0.75 0 0.44}\
+    #{yield}\
+\\special{color pop}\
+\\special{pdf:eann}"
+  end
+
+  def img
+    pixel_to_pt = -> pixel { pixel / 200.0 * 72.0 }
+    filename = nil
+    width = nil
+    height = nil
+    original_width = nil
+    original_height = nil
+    @node.keys.each do |key|
+      value = @node[key]
+      case key
+      when 'src'
+        filename = $dir_tmp + sprintf("/%05d.pdf", rand(100000))
+        image = Magick::Image.read(value).first
+        original_width = pixel_to_pt.(image.base_rows)
+        original_height = pixel_to_pt.(image.base_columns)
+        image.write('pdf:' + filename)
+        puts filename
+      when 'width'
+        width = pixel_to_pt.(value) if value =~ /^[0-9].*\.[0-9].*$/
+      when 'height'
+        height = pixel_to_pt.(value) if value =~ /^[0-9].*\.[0-9].*$/
+      end
+    end
+
+    width, height = Image.resize(
+      *(Image.get_width_and_height(width, height, original_width, original_height)),
+      @t.textheight,
+      @t.textwidth)
+
+    "\\hbox{\\yoko\\includegraphics[keepaspectratio,width=#{width}pt]{#{filename}}}"
+  end
+
+  def jisage
+    num = 1
+    attrs.each_slice(2) do |key, value|
+      case key
+      when 'num'
+        num = value.to_f
+      end
+    end
+    "\n{\n\\leftskip=#{num}zw\n#{yield}}"
+  end
+  def pagebreak() '\n\\clearpage\n'; end
+  def rensuji() "\\rensuji{#{yield}}"; end
+  def dialog_name
+    "\
+      \\noindent{}{\\begin{list}%
+         {}%
+         {\\setlength{\\topsep}{0zw}%
+      \\setlength{\\labelsep}{-1zw}%
+      \\setlength{\\itemsep}{0zw}%
+      \\setlength{\\leftmargin}{3zw}%
+      \\setlength{\\labelwidth}{2zw}%
+      \\setlength{\\itemindent}{-2zw}}%
+      \\item[{\\gt#{yield}\\hspace*{1zw}}]"
+  end
+  def dialog_value() "#{yield}\n\\end{list}}"; end
+
+  def tex_escape! str
+    # %, #,... to \%, \#,...
+    str.gsub!(/\\/, '\\textbackslash ')
+    str.gsub!(/([\%\#\$\&\_])/){"\\#{$1}"}
+    str.gsub!(/([、。])/){"#{$1}\\hbox{}"}
+    str
+  end
+
+  def to_kansuji! str
+    str.tr!("1234567890%/", "一二三四五六七八九〇％／") if str =~ /[0-9\%]/
+  end
+
+  module Image
     def self.get_width_and_height width, height, original_width, original_height
       if width and height
         [width, height]
@@ -41,228 +227,4 @@ class HTMLDoc < Nokogiri::XML::SAX::Document
       [width, height]
     end
   end
-
-  def initialize t
-    @t = t
-    @mode = [:normal]
-    @zenkaku_kagikakko = false
-    @force_kansuji = false
-    super()
-  end
-
-  def start_element name, attrs = []
-    case name
-    when 'set'
-      set_option attrs
-    when 'title'
-      @mode.push :title
-    when 'author'
-      @t.body << "\n\n\\hfill "
-    when 'br'
-      @t.body << '\\par{}'
-    when 'p'
-      @t.body << "\\vspace{1zw plus .1zw minus .4zw}\n\n"
-    when 'hr'
-      @t.body << "
-        \\vspace{1zw plus .1zw minus .4zw}\n\n
-        \n\n\\noindent
-        \\hfil
-        \\rule{#{@t.textwidth_consider_column * 0.7}pt}{.01zw}
-        \\hfill\n\n"
-    when 'rb'
-      @t.body << '\\kana{'
-    when 'rt'
-      @t.body << '{'
-    when 'rp'
-      @mode.push :ignore
-    when 'a'
-      @mode.push :a_link
-      @t.body << begin_a(attrs)
-    when 'h2'
-      @t.body << '{\gtfamily\bfseries '
-    when 'img'
-      @t.body << tag_img(attrs)
-    when 'pre'
-      @t.body << '\\begin{Verbatim}[fontsize=\\small, frame=leftline]'
-    when 'pagebreak'
-      @t.body << '\n\\clearpage\n'
-    when 'jisage'
-      @t.body << begin_jisage(attrs)
-    when 'rensuji'
-      @t.body << '\\rensuji{'
-    when 'dialog_name'
-      @t.body << '
-      \\noindent{}{\\begin{list}%
-         {}%
-         {\\setlength{\\topsep}{0zw}%
-      \\setlength{\\labelsep}{-1zw}%
-      \\setlength{\\itemsep}{0zw}%
-      \\setlength{\\leftmargin}{3zw}%
-      \\setlength{\\labelwidth}{2zw}%
-      \\setlength{\\itemindent}{-2zw}}%
-      \\item[{\\gt '
-    when 'dialog_value'
-      @t.body << ''
-    end
-  end
-
-  def end_element name
-    case name
-    when 'title'
-      @mode.pop
-    when 'author'
-      @t.body << "\n\n"
-    when 'rb'
-      @t.body << '}'
-    when 'rt'
-      @t.body << '}'
-    when 'rp'
-      @mode.pop
-    when 'a'
-      @mode.pop
-      @t.body << end_a
-    when 'h2'
-      @t.body << '}'
-    when 'pre'
-      @t.body << '\\end{Verbatim}'
-    when 'jisage'
-      @t.body << end_jisage
-    when 'rensuji'
-      @t.body << '}'
-    when 'dialog_name'
-      @t.body << '\\hspace*{1zw}}]'
-    when 'dialog_value'
-      @t.body << "\n\\end{list}}"
-    end
-  end
-
-  def characters str
-    case @mode.last
-    when :ignore
-      return
-    when :title
-      h = @t.fontsize / 2.0
-      str.each_char do |char|
-        @t.body << "\\raisebox{0pt}[#{h}pt][#{h}pt]{\\Huge\\mcfamily\\bfseries #{char}}\n"
-      end
-      #when :a_link
-      #str.each_char do |char|
-      #  @t.body << "\\hbox{\\yoko\\href{#{@a_url}}{\\nolinkurl{#{char}}}}"
-      #end
-    else
-      to_kansuji!(str) if @force_kansuji
-      tex_escape!(str)
-      str.gsub! /「/, '{\makebox[1zw][r]{「}}' if @zenkaku_kagikakko
-      @t.body << str
-    end
-  end
-
-  def begin_a attrs
-    url = ''
-    attrs.each_slice(2) do |key, value|
-      case key
-      when 'href'
-        @a_url = value
-      end
-    end
-    "\
-\\begingroup\
-\\catcode`\\_=11\
-\\catcode`\\%=11\
-\\catcode`\\#=11\
-\\catcode`\\$=11\
-\\catcode`\\&=11\
-\\special{pdf:bann << /Subtype /Link /Border [0 0 0] /C [0 1 1] /A << /S /URI /URI (#{@a_url}) >> >>}\\endgroup\
-\\special{color push cmyk 0.75 0.75 0 0.44}"
-  end
-
-  def end_a
-    "\
-\\special{color pop}\
-\\special{pdf:eann}"
-  end
-
-
-  def begin_jisage attrs
-    num = 1
-    attrs.each_slice(2) do |key, value|
-      case key
-      when 'num'
-        num = value.to_f
-      end
-    end
-    "\n{\n\\leftskip=#{num}zw\n"
-  end
-
-  def end_jisage
-    "}"
-  end
-
-  def tag_img attrs
-    pixel_to_pt = -> pixel { pixel / 200.0 * 72.0 }
-    filename = nil
-    width = nil
-    height = nil
-    original_width = nil
-    original_height = nil
-    attrs.each_slice(2) do |key, value|
-      case key
-      when 'src'
-        filename = $dir_tmp + sprintf("/%05d.pdf", rand(100000))
-        image = Magick::Image.read(value).first
-        original_width = pixel_to_pt.(image.base_rows)
-        original_height = pixel_to_pt.(image.base_columns)
-        image.write('pdf:' + filename)
-        p filename
-      when 'width'
-        width = pixel_to_pt.(value) if value =~ /^[0-9].*\.[0-9].*$/
-      when 'height'
-        height = pixel_to_pt.(value) if value =~ /^[0-9].*\.[0-9].*$/
-      end
-    end
-
-    width, height = Image.resize(
-      *(Image.get_width_and_height(width, height, original_width, original_height)),
-      @t.textheight,
-      @t.textwidth)
-
-    "\\hbox{\\yoko\\includegraphics[keepaspectratio,width=#{width}pt]{#{filename}}}"
-  end
-
-  def set_option attrs
-    attrs.each_slice(2) do |key, value|
-      case key
-      when 'lineskip'
-        @t.lineskip_zw = value.to_f
-      when 'zenkaku_kagikakko'
-        if value == 'true'
-          @zenkaku_kagikakko = true
-        else
-          @zenkaku_kagikakko = false
-        end
-      when 'force_kansuji'
-        if value == 'true'
-          @force_kansuji = true
-        else
-          @force_kansuji = false
-        end
-      when 'parindent'
-        @t.parindent_zw = value.to_f
-      end
-    end
-  end
-
-  def tex_escape! str
-    # %, #,... to \%, \#,...
-    str.gsub!(/\\/, '\\textbackslash ')
-    str.gsub!(/([\%\#\$\&\_])/){"\\#{$1}"}
-      str.gsub!(/([、。])/){"#{$1}\\hbox{}"}
-    str
-  end
-
-  def to_kansuji! str
-    str.tr!("1234567890%/", "一二三四五六七八九〇％／") if str =~ /[0-9\%]/
-  end
-
 end
-

@@ -18,7 +18,7 @@ def do_command(dirname, command)
 end
 
 def typeset(t, text)
-  parser = Nokogiri::HTML::SAX::Parser.new(HTMLDoc.new(t)).parse(text)
+  t.body = TransformHTMLToTex.new(t).parse(Nokogiri::HTML(text))
   filename = "ag-" + sprintf("%05d", rand(100000))
   template = open($dir_typesetting + '/layout.erb', 'r').read
   open("#{$dir_tmp}/#{filename}.tex", 'w'){|fp| fp.write(Erubis::Eruby.new(template).result(binding))}
