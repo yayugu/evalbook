@@ -5,6 +5,10 @@ require 'uri'
 require 'RMagick'
 
 class TransformHTMLToTex
+  def self.tag name, &block
+    define_method('tag_' + name.to_s, block)
+  end
+
   def initialize t=nil
     @t = t
     @zenkaku_kagikakko = false
@@ -27,13 +31,18 @@ class TransformHTMLToTex
     elsif node.kind_of?(Nokogiri::XML::Node)
       begin
         @node = node
-        self.__send__(node.name.downcase){self.parse node.children}
+        @recur = proc{self.parse node.children}
+        self.__send__('tag_' + node.name.downcase)
       rescue NoMethodError
         self.parse node.children
       end
     else
       raise "Cannnot parse. Unknown Node: #{node.class.inspect}"
     end
+  end
+
+  def recur
+    @recur.call
   end
 
   def text str
@@ -68,20 +77,20 @@ class TransformHTMLToTex
     ''
   end
 
-  def title
+  tag :title do
     h = @t.fontsize / 2.0
     @node.content.each_char.map do |char|
       "\\raisebox{0pt}[#{h}pt][#{h}pt]{\\Huge\\mcfamily\\bfseries #{char}}\n"
     end.join('')
   end
-  def author() "\n\n\\hfill #{yield}\n\n"; end
+  tag(:author) {"\n\n\\hfill #{recur}\n\n"}
 
-  def rb() "\\kana{#{yield}}"; end
-  def rt() "{#{yield}}"; end
-  def rp() ""; end
+  tag(:rb) {"\\kana{#{recur}}"}
+  tag(:rt) {"{#{recur}}"}
+  tag(:rp) {""}
 
-  def br() '\\par{}'; end
-  def hr
+  tag(:br) {'\\par{}'}
+  tag :hr do
     "\
 \\vspace{1zw plus .1zw minus .4zw}\n\n
 \n\n\\noindent
@@ -90,16 +99,34 @@ class TransformHTMLToTex
 \\hfill\n\n"
   end
 
-  def p() "\\vspace{1zw plus .1zw minus .4zw}\n\n#{yield}"; end
+  tag(:p) {"\\vspace{1zw plus .1zw minus .4zw}\n\n#{recur}"}
 
-  def pre
+  tag :pre do
     "\
 \\begin{Verbatim}[fontsize=\\small, frame=leftline]
-    #{yield}
+    #{recur}
 \\end{Verbatim}\n"
   end
 
-  def a
+  tag :font do
+    size = 0
+    @node.keys.each do |key|
+      case key
+      when 'size'
+        size = @node[key].to_i
+        p size
+      end
+    end
+    if (-4...5) === size
+      p 'hre'
+      tex_size = %w[tiny scriptsize footnotesize small normalsize large Large LARGE huge Huge]
+      "{\\#{tex_size[size + 4]} #{recur}}"
+    else
+      recur
+    end
+  end
+
+  tag :a do
     a_url = ''
     @node.keys.each do |key|
       case key
@@ -116,12 +143,12 @@ class TransformHTMLToTex
 \\catcode`\\&=11\
 \\special{pdf:bann << /Subtype /Link /Border [0 0 0] /C [0 1 1] /A << /S /URI /URI (#{a_url}) >> >>}\\endgroup\
 \\special{color push cmyk 0.75 0.75 0 0.44}\
-    #{yield}\
+    #{recur}\
 \\special{color pop}\
 \\special{pdf:eann}"
   end
 
-  def img
+  tag :img do
     pixel_to_pt = -> pixel { pixel / 200.0 * 72.0 }
     filename = nil
     width = nil
@@ -153,19 +180,21 @@ class TransformHTMLToTex
     "\\hbox{\\yoko\\includegraphics[keepaspectratio,width=#{width}pt]{#{filename}}}"
   end
 
-  def jisage
+  tag :jisage do
     num = 1
-    attrs.each_slice(2) do |key, value|
+    @node.keys.each do |key|
       case key
       when 'num'
-        num = value.to_f
+        num = @node[key].to_f
       end
     end
-    "\n{\n\\leftskip=#{num}zw\n#{yield}}"
+    "\n{\n\\leftskip=#{num}zw\n#{recur}}"
   end
-  def pagebreak() '\n\\clearpage\n'; end
-  def rensuji() "\\rensuji{#{yield}}"; end
-  def dialog_name
+  tag(:pagebreak) {"\n\\clearpage\n"}
+  tag(:rensuji) {"\\rensuji{#{recur}}"}
+  tag(:note) {"\\footnote{#{recur}}"}
+
+  tag :dialog_name do
     "\
       \\noindent{}{\\begin{list}%
          {}%
@@ -175,9 +204,9 @@ class TransformHTMLToTex
       \\setlength{\\leftmargin}{3zw}%
       \\setlength{\\labelwidth}{2zw}%
       \\setlength{\\itemindent}{-2zw}}%
-      \\item[{\\gt#{yield}\\hspace*{1zw}}]"
+      \\item[{\\gt#{recur}\\hspace*{1zw}}]"
   end
-  def dialog_value() "#{yield}\n\\end{list}}"; end
+  tag(:dialog_value) {"#{recur}\n\\end{list}}"}
 
   def tex_escape! str
     # %, #,... to \%, \#,...

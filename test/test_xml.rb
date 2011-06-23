@@ -34,14 +34,20 @@ class TestTransformHTMLToTex < Test::Unit::TestCase
 
   end
 
-  should 'parse ruby(ルビ)' do
+  should 'parse ruby(ルビ) tag' do
     assert_equal '\kana{阿井宇}{あいう}',
                  @p.parse(Nokogiri::XML('<ruby><rb>阿井宇</rb><rp>(</rp><rt>あいう</rt><rp>)</rp></ruby>'))
   end
   
-  should 'parse a(hyperlink)' do
+  should 'parse a(hyperlink) tag' do
     #assert_equal '', @p.parse(Nokogiri::XML('<a href="http://google.com/">google</a>'))
   end
+
+  should 'prase font tag' do
+    assert_equal '{\\large hello}',
+                 @p.parse(Nokogiri::XML('<font size="+1">hello</font>'))
+  end
+
 
 end
 
