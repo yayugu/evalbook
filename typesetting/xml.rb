@@ -49,7 +49,11 @@ class TransformHTMLToTex
     to_kansuji!(str) if @force_kansuji
     tex_escape!(str)
     str.gsub! /「/, '{\makebox[1zw][r]{「}}' if @zenkaku_kagikakko
-    str
+    if @hyperlink
+      a_text str
+    else 
+      str
+    end
   end
 
   def set
@@ -127,13 +131,20 @@ class TransformHTMLToTex
   end
 
   tag :a do
-    a_url = ''
+    @a_url = ''
     @node.keys.each do |key|
       case key
       when 'href'
-        a_url = @node[key]
+        @a_url = @node[key]
       end
     end
+    @hyperlink = true
+    ret = recur
+    @hyperlink = false
+    ret
+  end
+
+  def a_img width, height
     "\
 \\begingroup\
 \\catcode`\\_=11\
@@ -141,9 +152,21 @@ class TransformHTMLToTex
 \\catcode`\\#=11\
 \\catcode`\\$=11\
 \\catcode`\\&=11\
-\\special{pdf:bann << /Subtype /Link /Border [0 0 0] /C [0 1 1] /A << /S /URI /URI (#{a_url}) >> >>}\\endgroup\
+\\special{pdf:ann width #{width}pt height #{height}pt << /Subtype /Link /A << /S /URI /URI (#{@a_url}) >> >>}\\endgroup \
+    "
+  end
+
+  def a_text text
+    "\
+\\begingroup\
+\\catcode`\\_=11\
+\\catcode`\\%=11\
+\\catcode`\\#=11\
+\\catcode`\\$=11\
+\\catcode`\\&=11\
+\\special{pdf:bann << /Subtype /Link /Border [0 0 0] /C [0 1 1] /A << /S /URI /URI (#{@a_url}) >> >>}\\endgroup \
 \\special{color push cmyk 0.75 0.75 0 0.44}\
-    #{recur}\
+    #{text}\
 \\special{color pop}\
 \\special{pdf:eann}"
   end
@@ -177,7 +200,7 @@ class TransformHTMLToTex
       @t.textheight,
       @t.textwidth)
 
-    "\\hbox{\\yoko\\includegraphics[keepaspectratio,width=#{width}pt]{#{filename}}}"
+      "\\hbox{\\yoko#{a_img(width, height) if @hyperlink}\\includegraphics[keepaspectratio,width=#{width}pt]{#{filename}}}"
   end
 
   tag :jisage do
@@ -212,7 +235,7 @@ class TransformHTMLToTex
     # %, #,... to \%, \#,...
     str.gsub!(/\\/, '\\textbackslash ')
     str.gsub!(/([\%\#\$\&\_])/){"\\#{$1}"}
-    str.gsub!(/([、。])/){"#{$1}\\hbox{}"}
+      str.gsub!(/([、。])/){"#{$1}\\hbox{}"}
     str
   end
 

@@ -1,15 +1,19 @@
 $(function(){
   $("#kumihan").submit(function(e){
     $('#after-kumihan-message').empty().append("<img src=../load.gif /> 送信中...");
-    $.get(
-      "../view-get",
-      $(this).serialize(),
-      function(data, status){
+    $.ajax({
+      url: "../view-get",
+      type: "GET",
+      data: $(this).serialize(),
+      success: function(data){
         $('#after-kumihan-message')
           .empty().append("success! <a href='" + data + "'>PDF</a>");
       },
-      'html'
-    );
+      error: function(xhr, textStatus){
+        $('#after-kumihan-message')
+          .empty().append("failed..." + xhr.status);
+      }    
+    });
   });
 
   $("#iPhone").click(function(e){
