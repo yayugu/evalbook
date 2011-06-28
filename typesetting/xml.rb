@@ -200,12 +200,11 @@ class TransformHTMLToTex
       *(Image.get_width_and_height(width, height, original_width, original_height)),
       @t.textheight,
       @t.textwidth)
-    p [width, height, original_width, original_height]
 
-      "\
+    "\
 \\hbox{\\yoko#{a_img(width, height) if @hyperlink}\
 \\includegraphics[keepaspectratio,width=#{width}pt]{#{filename}}}\
-      "
+    "
   end
 
   tag :jisage do
