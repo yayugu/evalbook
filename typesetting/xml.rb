@@ -152,7 +152,8 @@ class TransformHTMLToTex
 \\catcode`\\#=11\
 \\catcode`\\$=11\
 \\catcode`\\&=11\
-\\special{pdf:ann width #{width}pt height #{height}pt << /Subtype /Link /A << /S /URI /URI (#{@a_url}) >> >>}\\endgroup \
+\\special{pdf:ann width #{width}pt height #{height}pt \
+<< /Subtype /Link /A << /S /URI /URI (#{@a_url}) >> >>}\\endgroup \
     "
   end
 
@@ -184,8 +185,8 @@ class TransformHTMLToTex
       when 'src'
         filename = $dir_tmp + sprintf("/%05d.pdf", rand(100000))
         image = Magick::Image.read(value).first
-        original_width = pixel_to_pt.(image.base_rows)
-        original_height = pixel_to_pt.(image.base_columns)
+        original_width = pixel_to_pt.(image.base_columns)
+        original_height = pixel_to_pt.(image.base_rows)
         image.write('pdf:' + filename)
         puts filename
       when 'width'
@@ -199,8 +200,12 @@ class TransformHTMLToTex
       *(Image.get_width_and_height(width, height, original_width, original_height)),
       @t.textheight,
       @t.textwidth)
+    p [width, height, original_width, original_height]
 
-      "\\hbox{\\yoko#{a_img(width, height) if @hyperlink}\\includegraphics[keepaspectratio,width=#{width}pt]{#{filename}}}"
+      "\
+\\hbox{\\yoko#{a_img(width, height) if @hyperlink}\
+\\includegraphics[keepaspectratio,width=#{width}pt]{#{filename}}}\
+      "
   end
 
   tag :jisage do
