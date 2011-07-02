@@ -235,6 +235,10 @@ class TransformHTMLToTex
   end
   tag(:dialog_value) {"#{recur}\n\\end{list}}"}
 
+  tag(:ignore) { '' }
+
+  tag(:utf) { "\\UTF{#{@node.content}}" }
+
   def tex_escape! str
     # %, #,... to \%, \#,...
     str.gsub!(/\\/, '\\textbackslash ')
