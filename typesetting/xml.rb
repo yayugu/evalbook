@@ -56,7 +56,7 @@ class TransformHTMLToTex
     end
   end
 
-  def set
+  tag :set do
     @node.keys.each do |key|
       value = @node[key]
       case key
