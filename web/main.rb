@@ -19,6 +19,7 @@ helpers do
 
   $pwd = Dir.pwd
   $dir_typesetting =  File.expand_path "../typesetting"
+  $dir_sty = File.expand_path "../sty"
   $dir_tmp = File.expand_path "../tmp"
   $dir_public_tmp = File.expand_path "./public/tmp"
 end
