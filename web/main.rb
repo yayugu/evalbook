@@ -22,7 +22,7 @@ helpers do
   $dir_sty = File.expand_path "../sty"
   $dir_tmp = File.expand_path "../tmp"
   $dir_public_tmp = File.expand_path "./public/tmp"
-  Dir.new('./public').mkdir('tmp') unless File.exist?($dir_public_tmp) 
+  Dir.mkdir($dir_public_tmp) unless File.exist?($dir_public_tmp) 
 end
 
 configure do
