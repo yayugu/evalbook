@@ -1,5 +1,4 @@
 tmp
-!tmp/dummy.txt
 *.otf
 *.log
 *.DS_Store
