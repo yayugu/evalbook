@@ -1,6 +1,6 @@
 # coding: utf-8
+require 'bundler/setup'
 require 'open-uri'
-require 'rubygems'
 require 'haml'
 require 'sinatra'
 
