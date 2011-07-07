@@ -25,7 +25,7 @@ def typeset(t, text)
   open("#{$dir_tmp}/#{filename}.sh", 'w'){|fp| fp.write(<<-"EOF")}
       ebb *.pdf
       platex -interaction=nonstopmode #{$dir_tmp}/#{filename}.tex
-      dvipdfmx -p #{t.width}pt,#{t.height}pt #{$dir_tmp}/#{filename}.dvi
+      dvipdfmx -f #{$dir_sty}/notembed.map -p #{t.width}pt,#{t.height}pt #{$dir_tmp}/#{filename}.dvi
       mv #{filename}.pdf #{$dir_public_tmp}
       #rm #{filename}.tex #{filename}.dvi
   EOF
