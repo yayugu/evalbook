@@ -5,4 +5,5 @@ gem "haml"
 gem "sass"
 gem "erubis"
 gem "rmagick"
-
+gem "activesupport", "~>3.0"
+gem "i18n"

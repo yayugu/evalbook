@@ -1,6 +1,7 @@
 # coding: utf-8
 require 'bundler/setup'
 require 'open-uri'
+require 'active_support/core_ext'
 require 'haml'
 require 'sinatra'
 
@@ -17,12 +18,38 @@ helpers do
     "#{request.scheme}://#{request.host}#{port}"
   end
 
+  def valid?(params)
+    [:display_inch, :pixel_longer, :pixel_shorter].each{|param| return false if params[param].blank?}
+  end
+
+  def fill_params(params = {})
+    @p = {}
+    {
+      source_url: '',
+      display_inch: '',
+      pixel_longer: '',
+      pixel_shorter: '',
+      pixel_statusbar_height: '0',
+      fontsize: 10,
+      fontembed: true,
+      auto_dect_environment: true,
+      direct_download: false
+    }.each do |key, value|
+      @p[key] = if params[key].blank?
+                  value
+                else
+                  params[key]
+                end
+      end
+  end
+
+
   $pwd = Dir.pwd
   $dir_typesetting =  File.expand_path "../typesetting"
   $dir_sty = File.expand_path "../sty"
   $dir_tmp = File.expand_path "../tmp"
   $dir_public_tmp = File.expand_path "./public/tmp"
-  Dir.mkdir($dir_public_tmp) unless File.exist?($dir_public_tmp) 
+  Dir.mkdir($dir_public_tmp) unless File.exist?($dir_public_tmp)
 end
 
 configure do
@@ -39,10 +66,15 @@ get '/' do
 end
 
 get '/view' do
+  fill_params params
   haml :view
 end
 
 get '/view-get' do
+  unless valid?(params)
+    raise "error"
+  end
+
   t = ErbTemplate.new
   t.display_size = t.in_to_pt params[:display_inch].to_f
   t.fontsize = params[:fontsize].to_f
@@ -62,12 +94,13 @@ get '/view-get' do
 
   text = open(params[:source_url]).read
   filename = typeset(t, text)
-  
+
   if params[:redirect]
     redirect "#{base_url}/tmp/#{filename}.pdf"
   else
     "#{base_url}/tmp/#{filename}.pdf"
   end
+
 end
 
 

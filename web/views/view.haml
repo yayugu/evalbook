@@ -6,26 +6,26 @@
   .block
     %div
       ソースHTML
-      %input#source_url{:type => 'text', :name => 'source_url', :size => 100}
+      %input#source_url{:type => 'text', :name => 'source_url', :size => 100, :value => @p[:source_url]}
   .block
     %div
       画面の大きさ
-      %input#display_inch{:type => 'text', :name => 'display_inch'} inch
+      %input#display_inch{:type => 'text', :name => 'display_inch', :value => @p[:display_inch]} inch
   .block
     %div
       長い方の解像度
-      %input#pixel_longer{:type => 'text', :name => 'pixel_longer'} px
+      %input#pixel_longer{:type => 'text', :name => 'pixel_longer', :value => @p[:pixel_longer]} px
     %div
       短い方の解像度
-      %input#pixel_shorter{:type => 'text', :name => 'pixel_shorter'} px
+      %input#pixel_shorter{:type => 'text', :name => 'pixel_shorter', :value => @p[:pixel_shorter]} px
     %div
       ステータスバーなどの高さ（解像度）
-      %input#pixel_statusbar_height{:type => 'text', :name => 'pixel_statusbar_height'} px
+      %input#pixel_statusbar_height{:type => 'text', :name => 'pixel_statusbar_height', value: @p[:pixel_statusbar_height]} px
 
   .block
     %div
       文字の大きさ
-      %input#fontsize{:type => 'text', :name => 'fontsize'} pt
+      %input#fontsize{:type => 'text', :name => 'fontsize', value: @p[:fontsize]} pt
   .block
     画面の向き
     %div
