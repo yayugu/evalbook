@@ -82,6 +82,8 @@ class TransformHTMLToTex
   end
 
   tag :title do
+    @t.title = @node.content
+
     h = @t.fontsize / 2.0
     @node.content.each_char.map do |char|
       "\\raisebox{0pt}[#{h}pt][#{h}pt]{\\Huge\\mcfamily\\bfseries #{char}}\n"

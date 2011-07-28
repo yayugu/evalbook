@@ -7,13 +7,21 @@
             bookmarksnumbered=true,%
             colorlinks=true]{hyperref}
 \usepackage{fancyvrb}
-
+\usepackage{fancyhdr}
 
 \makeatletter
 \DeclareFontShape{JT1}{hmc}{m}{n}{<-> s * [0.9375] brsgnmlminr-v}{}
 \renewcommand{\normalsize}{\@setfontsize\normalsize{<%=t.normalsize%>pt}{<%=t.lineskip(t.normalsize)%>}}
 \renewcommand{\tiny}{\@setfontsize\tiny{<%=t.tiny%>pt}{<%=t.lineskip(t.tiny)%>}}
 \renewcommand{\huge}{\@setfontsize\huge{<%=t.huge%>pt}{<%=t.lineskip(t.normalsize)%>}}
+
+\def\ps@myhead{\let\ps@jpl@in\ps@headnombre
+	\let\@oddfoot\@empty\let\@evenfoot\@empty
+  \def\@evenhead{{\tiny <%= t.title %>\hfill \thepage{}}}%
+  \def\@oddhead{{\tiny <%= t.title %>\hfill \thepage{}}}%
+	\let\@mkboth\markboth
+}
+\pagestyle{myhead}
 \makeatother
 
 \normalsize
@@ -26,9 +34,9 @@
 \topmargin=<%= t.topmargin %>pt
 \oddsidemargin=<%= t.oddsidemargin %>pt
 \columnsep=<%= t.columnsep %>pt
-\headheight=0mm
-\headsep=0mm
-\topskip=0mm
+\headheight=<%= t.headheight %>pt
+\headsep=<%= t.headsep %>pt
+\topskip=<%= t.topskip %>pt
 \footskip=1000mm   % don't use footer
 %\kanjiskip=0zw plus .1zw minus .01zw
 \kanjiskip=0zw plus .5zw minus .01zw
@@ -43,6 +51,7 @@
 \AtBeginDvi{\special{pdf:docview <</ViewerPreferences <</Direction /R2L>> >>}}
 
 \begin{document}
+\pagestyle{myhead}
 
 <%= t.body %>
 

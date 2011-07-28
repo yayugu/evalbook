@@ -11,7 +11,8 @@ class ErbTemplate
   @pixel_y
   @fontsize
   @wabun_bairitsu
-  attr_accessor :body, 
+  attr_accessor :title,
+                :body, 
                 :display_size, 
                 :pixel_x, 
                 :pixel_y, 
@@ -37,11 +38,28 @@ class ErbTemplate
   end
 
   def topmargin
-    (height - textwidth) / 2
+    headheight
+  end
+
+  def headheight
+    tiny
+  end
+
+  def headsep
+    maxsep = height - textwidth - headheight - topmargin
+    if maxsep * 0.3 > small
+      maxsep * 0.7
+    else
+      maxsep - small
+    end
+  end
+
+  def topskip
+    0
   end
 
   def textheight
-    (width * 0.925 / lineskip(@fontsize)).to_i * lineskip(@fontsize)
+    ((width * 0.925 / lineskip(@fontsize)).to_i - 1) * lineskip(@fontsize) + @fontsize
   end
 
   def oddsidemargin
@@ -49,7 +67,7 @@ class ErbTemplate
     #if width < in_to_pt(5)
       #(width - textheight - ((lineskip(fontsize) - fontsize) / 2)) / 2
     #else
-      (width - (textheight + @fontsize)) / 2
+      (width - textheight - tiny / 2) / 2
     #end
   end
 
@@ -78,7 +96,11 @@ class ErbTemplate
   end
 
   def tiny
-    @fontsize / 2.0
+    @fontsize * 0.5
+  end
+
+  def small
+    @fontsize * 0.8
   end
 
   def huge
