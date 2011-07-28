@@ -63,12 +63,7 @@ class ErbTemplate
   end
 
   def oddsidemargin
-    #fontsize = @fontsize * @wabun_bairitsu
-    #if width < in_to_pt(5)
-      #(width - textheight - ((lineskip(fontsize) - fontsize) / 2)) / 2
-    #else
-      (width - textheight - tiny / 2) / 2
-    #end
+    (width - textheight - tiny / 2) / 2
   end
 
   def column
