@@ -17,8 +17,8 @@
 
 \def\ps@myhead{\let\ps@jpl@in\ps@headnombre
 	\let\@oddfoot\@empty\let\@evenfoot\@empty
-  \def\@evenhead{{\tiny <%= t.title %>\hfill \thepage{}}}%
-  \def\@oddhead{{\tiny <%= t.title %>\hfill \thepage{}}}%
+  \def\@evenhead{{\tiny <%= t.title || '' %>　<%= t.author || '' %>\hfill \thepage{}}}%
+  \def\@oddhead{{\tiny <%= t.title || '' %>　<%= t.author || '' %>\hfill \thepage{}}}%
 	\let\@mkboth\markboth
 }
 \pagestyle{myhead}

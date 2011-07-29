@@ -89,7 +89,11 @@ class TransformHTMLToTex
       "\\raisebox{0pt}[#{h}pt][#{h}pt]{\\Huge\\mcfamily\\bfseries #{char}}\n"
     end.join('')
   end
-  tag(:author) {"\n\n\\hfill #{recur}\n\n"}
+  tag(:author) do 
+    @t.author = @node.content
+
+    "\n\n\\hfill #{recur}\n\n"
+  end
 
   tag(:rb) {"\\kana{#{recur}}"}
   tag(:rt) {"{#{recur}}"}

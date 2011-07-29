@@ -12,6 +12,7 @@ class ErbTemplate
   @fontsize
   @wabun_bairitsu
   attr_accessor :title,
+                :author,
                 :body, 
                 :display_size, 
                 :pixel_x, 
