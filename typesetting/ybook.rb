@@ -55,6 +55,10 @@ class ErbTemplate
     end
   end
 
+  def footsep
+    height - textwidth - headheight - topmargin - headsep
+  end
+
   def topskip
     0
   end
@@ -85,6 +89,10 @@ class ErbTemplate
     else
       textwidth
     end
+  end
+
+  def all_header_space
+    topmargin + headheight + headsep
   end
 
   def tiny

@@ -79,15 +79,15 @@ class TransformHTMLToTex
   tag :title do
     @t.title = @node.content
 
-    h = @t.fontsize / 2.0
-    @node.content.each_char.map do |char|
-      "\\raisebox{0pt}[#{h}pt][#{h}pt]{\\huge\\mcfamily\\bfseries #{char}}\n"
-    end.join('')
+    #h = @t.fontsize / 2.0
+    #@node.content.each_char.map do |char|
+    #  "\\raisebox{0pt}[#{h}pt][#{h}pt]{\\huge\\mcfamily\\bfseries #{char}}\n"
+    #end.join('')
+    ''
   end
   tag(:author) do 
     @t.author = @node.content
-
-    "\n\n\\hfill #{recur}\n\n"
+    ''
   end
 
   tag(:rb) {"\\kana{#{recur}}"}

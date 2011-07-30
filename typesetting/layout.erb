@@ -54,6 +54,33 @@
 \AtBeginDvi{\special{pdf:docview <</ViewerPreferences <</Direction /R2L>> >>}}
 
 \begin{document}
+\pagestyle{empty}
+\makeatletter
+\if@twocolumn
+		\@restonecoltrue\onecolumn
+\else
+		\@restonecolfalse\newpage
+\fi
+\makeatother
+
+　% zenkaku space
+
+\vfill
+\hfil
+{\huge\mcfamily\bfseries <%=t.title%>}
+\hspace{<%= t.all_header_space - t.footsep %>pt}
+\hfill
+
+\vspace{1zw}
+\hfil
+{\Large\mcfamily\bfseries <%=t.author%>}
+\hspace{<%= t.all_header_space - t.footsep %>pt}
+\hfill
+
+\vfill
+　% zenkaku space
+\clearpage
+
 \pagestyle{myhead}
 
 <%= t.body %>
