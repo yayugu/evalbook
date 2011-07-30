@@ -35,12 +35,8 @@ helpers do
       auto_dect_environment: true,
       direct_download: false
     }.each do |key, value|
-      @p[key] = if params[key].blank?
-                  value
-                else
-                  params[key]
-                end
-      end
+      @p[key] = if params[key].presence || value
+    end
   end
 
 

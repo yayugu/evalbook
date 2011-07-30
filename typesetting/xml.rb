@@ -13,6 +13,7 @@ class TransformHTMLToTex
     @t = t
     @zenkaku_kagikakko = false
     @force_kansuji = false
+    @bungaku_style = false
   end
 
   def parse n
@@ -63,17 +64,11 @@ class TransformHTMLToTex
       when 'lineskip'
         @t.lineskip_zw = value.to_f
       when 'zenkaku_kagikakko'
-        if value == 'true'
-          @zenkaku_kagikakko = true
-        else
-          @zenkaku_kagikakko = false
-        end
+        @zenkaku_kagikakko = (value == 'true')
       when 'force_kansuji'
-        if value == 'true'
-          @force_kansuji = true
-        else
-          @force_kansuji = false
-        end
+        @force_kansuji = (value == 'true')
+      when 'bungaku_style'
+        @bungaku_style = (value == 'true')
       when 'parindent'
         @t.parindent_zw = value.to_f
       end
@@ -136,10 +131,27 @@ class TransformHTMLToTex
     end
   end
 
-  tag(:h2) {"\\vspace{1zw plus 1zw minus 1zw}{\\Large\\gtfamily\\bfseries #{recur}}"}
-  tag(:h3) {"\\vspace{1zw plus 1zw minus 1zw}{\\large\\gtfamily\\bfseries #{recur}}"}
-  tag(:h4) {"{\\gtfamily\\bfseries #{recur}}"}
-
+  tag(:h2) do 
+    if @bungaku_style
+      recur
+    else
+      "\\vspace{1zw plus 1zw minus 1zw}{\\Large\\gtfamily\\bfseries #{recur}}"
+    end
+  end
+  tag(:h3) do 
+    if @bungaku_style
+      recur
+    else
+      "\\vspace{1zw plus 1zw minus 1zw}{\\large\\gtfamily\\bfseries #{recur}}"
+    end
+  end
+  tag(:h4) do 
+    if @bungaku_style
+      recur
+    else
+      "{\\gtfamily\\bfseries #{recur}}"
+    end
+  end
 
 
   tag :a do
