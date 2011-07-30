@@ -48,7 +48,7 @@ class TransformHTMLToTex
 
   def text str
     to_kansuji!(str) if @force_kansuji
-    tex_escape!(str)
+    tex_escape!(str) unless @bungaku_style
     str.gsub! /「/, '{\makebox[1zw][r]{「}}' if @zenkaku_kagikakko
     if @hyperlink
       a_text str
