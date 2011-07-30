@@ -86,7 +86,7 @@ class TransformHTMLToTex
 
     h = @t.fontsize / 2.0
     @node.content.each_char.map do |char|
-      "\\raisebox{0pt}[#{h}pt][#{h}pt]{\\Huge\\mcfamily\\bfseries #{char}}\n"
+      "\\raisebox{0pt}[#{h}pt][#{h}pt]{\\huge\\mcfamily\\bfseries #{char}}\n"
     end.join('')
   end
   tag(:author) do 
@@ -135,6 +135,12 @@ class TransformHTMLToTex
       recur
     end
   end
+
+  tag(:h2) {"\\vspace{1zw plus 1zw minus 1zw}{\\Large\\gtfamily\\bfseries #{recur}}"}
+  tag(:h3) {"\\vspace{1zw plus 1zw minus 1zw}{\\large\\gtfamily\\bfseries #{recur}}"}
+  tag(:h4) {"{\\gtfamily\\bfseries #{recur}}"}
+
+
 
   tag :a do
     @a_url = ''

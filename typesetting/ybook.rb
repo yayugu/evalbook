@@ -87,16 +87,24 @@ class ErbTemplate
     end
   end
 
-  def normalsize
-    @fontsize
-  end
-
   def tiny
     @fontsize * 0.5
   end
 
   def small
     @fontsize * 0.8
+  end
+
+  def normalsize
+    @fontsize
+  end
+
+  def large
+    @fontsize * 1.3
+  end
+
+  def Large
+    @fontsize * 1.5
   end
 
   def huge

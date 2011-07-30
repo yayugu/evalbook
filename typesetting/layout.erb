@@ -13,7 +13,10 @@
 \DeclareFontShape{JT1}{hmc}{m}{n}{<-> s * [0.9375] brsgnmlminr-v}{}
 \renewcommand{\normalsize}{\@setfontsize\normalsize{<%=t.normalsize%>pt}{<%=t.lineskip(t.normalsize)%>}}
 \renewcommand{\tiny}{\@setfontsize\tiny{<%=t.tiny%>pt}{<%=t.lineskip(t.tiny)%>}}
-\renewcommand{\huge}{\@setfontsize\huge{<%=t.huge%>pt}{<%=t.lineskip(t.normalsize)%>}}
+\renewcommand{\small}{\@setfontsize\small{<%=t.small%>pt}{<%=t.lineskip(t.small)%>}}
+\renewcommand{\large}{\@setfontsize\large{<%=t.large%>pt}{<%=t.lineskip(t.large)%>}}
+\renewcommand{\Large}{\@setfontsize\Large{<%=t.Large%>pt}{<%=t.lineskip(t.Large)%>}}
+\renewcommand{\huge}{\@setfontsize\huge{<%=t.huge%>pt}{<%=t.lineskip(t.huge)%>}}
 
 \def\ps@myhead{\let\ps@jpl@in\ps@headnombre
 	\let\@oddfoot\@empty\let\@evenfoot\@empty
