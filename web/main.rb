@@ -35,7 +35,7 @@ helpers do
       auto_dect_environment: true,
       direct_download: false
     }.each do |key, value|
-      @p[key] = if params[key].presence || value
+      @p[key] = params[key].presence || value
     end
   end
 
