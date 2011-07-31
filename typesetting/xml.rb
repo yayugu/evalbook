@@ -223,7 +223,7 @@ class TransformHTMLToTex
     width, height = Image.resize(
       *(Image.get_width_and_height(width, height, original_width, original_height)),
       @t.textheight,
-      @t.textwidth)
+      @t.textwidth_consider_column)
 
     "\
 \\hbox{\\yoko#{a_img(width, height) if @hyperlink}\
