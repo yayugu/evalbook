@@ -55,13 +55,7 @@
 
 \begin{document}
 \pagestyle{empty}
-\makeatletter
-\if@twocolumn
-		\@restonecoltrue\onecolumn
-\else
-		\@restonecolfalse\newpage
-\fi
-\makeatother
+\<%= t.column == 'onecolumn' ? "newpage" : "onecolumn" %>
 
 　% zenkaku space
 
@@ -81,6 +75,7 @@
 　% zenkaku space
 \clearpage
 
+\<%= t.column %>
 \pagestyle{myhead}
 
 <%= t.body %>

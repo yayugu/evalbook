@@ -17,7 +17,6 @@ $(function(){
   });
 
   $("#iPhone").click(function(e){
-    $('#source_url').attr("value", "http://localhost:9393/s-xml33.html");
     $('#display_inch').attr("value", "3.5");
     $('#pixel_longer').attr("value", "480");
     $('#pixel_shorter').attr("value", "320");
@@ -30,8 +29,6 @@ $(function(){
     $('#pixel_longer').attr("value", "1024");
     $('#pixel_shorter').attr("value", "768");
     $('#pixel_statusbar_height').attr("value", "20");
-    $('#fontsize').attr("value", "11.0");
+    $('#fontsize').attr("value", "9.0");
   });
-
-
 });
